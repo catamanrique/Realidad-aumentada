@@ -13,37 +13,69 @@
     body {
       margin: 0;
       overflow: hidden;
+      font-family: Arial, sans-serif;
     }
 
-    #message {
+    #menu {
       position: fixed;
       top: 20px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 10;
-      background: white;
-      padding: 15px 25px;
-      border-radius: 20px;
-      font-family: Arial, sans-serif;
-      font-size: 22px;
-      font-weight: bold;
+      width: 90%;
+      max-width: 500px;
       text-align: center;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 18px;
+      border-radius: 25px;
       display: none;
+    }
+
+    #menu h2 {
+      margin-top: 0;
+    }
+
+    button {
+      border: none;
+      border-radius: 15px;
+      padding: 12px;
+      margin: 5px;
+      font-size: 17px;
+      cursor: pointer;
+    }
+
+    #info {
+      margin-top: 15px;
+      padding: 15px;
+      border-radius: 15px;
+      background: #f2f2f2;
+      display: none;
+      text-align: left;
     }
   </style>
 </head>
 
 <body>
 
-  <div id="message">
-    🌱 ¡LO ENCONTRASTE! 🌱<br>
-    <small>Ahora descubre cómo se nutren los seres vivos.</small>
+  <div id="menu">
+
+    <h2>🌱 ¡LO ENCONTRASTE! 🌱</h2>
+
+    <p>Descubre cómo se nutren los seres vivos:</p>
+
+    <button onclick="showInfo('plantas')">🌱 Plantas</button>
+    <button onclick="showInfo('hongos')">🍄 Hongos</button>
+    <button onclick="showInfo('bacterias')">🦠 Bacterias</button>
+    <button onclick="showInfo('animales')">🐰 Animales</button>
+
+    <div id="info"></div>
+
   </div>
 
   <a-scene
     mindar-image="imageTargetSrc: ./targets.mind;"
     color-space="sRGB"
-    renderer="colorManagement: true, physicallyCorrectLights"
+    renderer="colorManagement: true"
     vr-mode-ui="enabled: false"
     device-orientation-permission-ui="enabled: false">
 
@@ -60,17 +92,68 @@
   </a-scene>
 
   <script>
+
     const target = document.querySelector("#target");
-    const message = document.querySelector("#message");
+    const menu = document.querySelector("#menu");
+    const info = document.querySelector("#info");
 
     target.addEventListener("targetFound", () => {
-      message.style.display = "block";
+      menu.style.display = "block";
     });
 
     target.addEventListener("targetLost", () => {
-      message.style.display = "none";
+      menu.style.display = "none";
+      info.style.display = "none";
     });
+
+    function showInfo(type) {
+
+      info.style.display = "block";
+
+      if (type === "plantas") {
+        info.innerHTML = `
+          <h3>🌱 Plantas</h3>
+          <p>
+          Las plantas fabrican su alimento mediante la fotosíntesis.
+          Utilizan agua, dióxido de carbono y luz.
+          También absorben sales minerales del suelo.
+          </p>
+        `;
+      }
+
+      if (type === "hongos") {
+        info.innerHTML = `
+          <h3>🍄 Hongos</h3>
+          <p>
+          Los hongos no fabrican su propio alimento.
+          Liberan sustancias que descomponen la materia y después
+          absorben los nutrientes.
+          </p>
+        `;
+      }
+
+      if (type === "bacterias") {
+        info.innerHTML = `
+          <h3>🦠 Bacterias</h3>
+          <p>
+          Algunas bacterias pueden obtener energía mediante
+          quimiosíntesis utilizando sustancias inorgánicas.
+          </p>
+        `;
+      }
+
+      if (type === "animales") {
+        info.innerHTML = `
+          <h3>🐰 Animales</h3>
+          <p>
+          Los animales obtienen nutrientes alimentándose de otros
+          seres vivos o de sus productos.
+          </p>
+        `;
+      }
+    }
+
   </script>
 
 </body>
-</html> 
+</html>
