@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +7,7 @@
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.2/dist/mindar-image-aframe.prod.js"></script>
 
-  <title>Realidad Aumentada</title>
+  <title>Living Things - Nutrition</title>
 
   <style>
     body {
@@ -18,39 +18,129 @@
 
     #menu {
       position: fixed;
-      top: 20px;
+      top: 3%;
       left: 50%;
       transform: translateX(-50%);
       z-index: 10;
-      width: 90%;
-      max-width: 500px;
+      width: 92%;
+      max-width: 650px;
+      max-height: 90vh;
+      overflow-y: auto;
+
+      background: rgba(255, 250, 235, 0.97);
+      border: 5px solid #6b8e23;
+      border-radius: 30px;
+
+      padding: 25px;
+      box-sizing: border-box;
+
       text-align: center;
-      background: rgba(255, 255, 255, 0.95);
-      padding: 18px;
-      border-radius: 25px;
       display: none;
+
+      box-shadow: 0 8px 30px rgba(0,0,0,0.35);
     }
 
-    #menu h2 {
-      margin-top: 0;
+    #menu h1 {
+      font-size: 34px;
+      margin: 5px 0 10px;
+      color: #285943;
+    }
+
+    #menu p.intro {
+      font-size: 21px;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
     }
 
     button {
-      border: none;
-      border-radius: 15px;
-      padding: 12px;
-      margin: 5px;
-      font-size: 17px;
+      border: 3px solid #555;
+      border-radius: 18px;
+      padding: 16px 8px;
+      font-size: 21px;
+      font-weight: bold;
       cursor: pointer;
+      background: white;
+    }
+
+    button:hover {
+      transform: scale(1.03);
     }
 
     #info {
-      margin-top: 15px;
-      padding: 15px;
-      border-radius: 15px;
-      background: #f2f2f2;
+      margin-top: 20px;
+      padding: 22px;
+
+      background: white;
+      border: 4px solid #6b8e23;
+      border-radius: 25px;
+
       display: none;
       text-align: left;
+
+      box-shadow: 0 5px 20px rgba(0,0,0,0.18);
+    }
+
+    #info h2 {
+      font-size: 30px;
+      margin-top: 0;
+      text-align: center;
+    }
+
+    #info h3 {
+      font-size: 24px;
+    }
+
+    #info p,
+    #info li {
+      font-size: 21px;
+      line-height: 1.55;
+    }
+
+    .back {
+      display: block;
+      margin: 20px auto 0;
+      background: #dcecc9;
+      border-color: #477a3c;
+      color: #285943;
+    }
+
+    .highlight {
+      font-weight: bold;
+      color: #356b35;
+    }
+
+    @media (max-width: 500px) {
+      #menu {
+        padding: 18px;
+      }
+
+      #menu h1 {
+        font-size: 28px;
+      }
+
+      #menu p.intro {
+        font-size: 18px;
+      }
+
+      button {
+        font-size: 17px;
+        padding: 13px 5px;
+      }
+
+      #info h2 {
+        font-size: 26px;
+      }
+
+      #info p,
+      #info li {
+        font-size: 18px;
+      }
     }
   </style>
 </head>
@@ -59,18 +149,36 @@
 
   <div id="menu">
 
-    <h2>🌱 ¡LO ENCONTRASTE! 🌱</h2>
+    <h1>🌿 YOU FOUND IT! 🌿</h1>
 
-    <p>Descubre cómo se nutren los seres vivos:</p>
+    <p class="intro">
+      Discover how different living things obtain the nutrients and energy they need to live.
+    </p>
 
-    <button onclick="showInfo('plantas')">🌱 Plantas</button>
-    <button onclick="showInfo('hongos')">🍄 Hongos</button>
-    <button onclick="showInfo('bacterias')">🦠 Bacterias</button>
-    <button onclick="showInfo('animales')">🐰 Animales</button>
+    <div class="buttons">
+
+      <button onclick="showInfo('photosynthesis')">
+        🌱 Photosynthesis
+      </button>
+
+      <button onclick="showInfo('chemosynthesis')">
+        🦠 Chemosynthesis
+      </button>
+
+      <button onclick="showInfo('fungi')">
+        🍄 Fungi
+      </button>
+
+      <button onclick="showInfo('heterotrophs')">
+        🐾 Heterotrophs
+      </button>
+
+    </div>
 
     <div id="info"></div>
 
   </div>
+
 
   <a-scene
     mindar-image="imageTargetSrc: ./targets.mind;"
@@ -91,66 +199,182 @@
 
   </a-scene>
 
+
   <script>
 
     const target = document.querySelector("#target");
     const menu = document.querySelector("#menu");
     const info = document.querySelector("#info");
 
+
     target.addEventListener("targetFound", () => {
       menu.style.display = "block";
     });
+
 
     target.addEventListener("targetLost", () => {
       menu.style.display = "none";
       info.style.display = "none";
     });
 
+
     function showInfo(type) {
 
       info.style.display = "block";
 
-      if (type === "plantas") {
+
+      if (type === "photosynthesis") {
+
         info.innerHTML = `
-          <h3>🌱 Plantas</h3>
+          <h2>🌱 Photosynthesis</h2>
+
+          <h3>How do plants get their food?</h3>
+
           <p>
-          Las plantas fabrican su alimento mediante la fotosíntesis.
-          Utilizan agua, dióxido de carbono y luz.
-          También absorben sales minerales del suelo.
+            Plants are <span class="highlight">autotrophs</span>.
+            This means they can make their own food.
           </p>
+
+          <p>
+            During photosynthesis, plants use
+            <span class="highlight">sunlight, water, and carbon dioxide (CO₂)</span>
+            to produce glucose, which stores chemical energy.
+          </p>
+
+          <p>
+            Plants also need <span class="highlight">mineral nutrients</span>
+            from the soil, such as nitrogen, phosphorus, and potassium.
+          </p>
+
+          <p>
+            Oxygen (O₂) is released into the air as a product of photosynthesis.
+          </p>
+
+          <p>
+            ☀️ Light + 💧 Water + 🌫️ CO₂
+            → 🌿 Food + O₂
+          </p>
+
+          <button class="back" onclick="backToMenu()">
+            ← Back to topics
+          </button>
         `;
       }
 
-      if (type === "hongos") {
+
+      if (type === "chemosynthesis") {
+
         info.innerHTML = `
-          <h3>🍄 Hongos</h3>
+          <h2>🦠 Chemosynthesis</h2>
+
+          <h3>How do some bacteria get energy?</h3>
+
           <p>
-          Los hongos no fabrican su propio alimento.
-          Liberan sustancias que descomponen la materia y después
-          absorben los nutrientes.
+            Some bacteria are <span class="highlight">chemoautotrophs</span>.
+            They can make organic food without using sunlight.
           </p>
+
+          <p>
+            Instead, they obtain energy by using
+            <span class="highlight">inorganic substances</span>
+            such as sulfur, ammonia, iron, hydrogen, or hydrogen sulfide.
+          </p>
+
+          <p>
+            These bacteria use the energy released by chemical reactions
+            to build organic compounds that they need to grow and live.
+          </p>
+
+          <p>
+            🌋 Chemical substances → ⚡ Energy → 🦠 Organic compounds
+          </p>
+
+          <button class="back" onclick="backToMenu()">
+            ← Back to topics
+          </button>
         `;
       }
 
-      if (type === "bacterias") {
+
+      if (type === "fungi") {
+
         info.innerHTML = `
-          <h3>🦠 Bacterias</h3>
+          <h2>🍄 Fungi</h2>
+
+          <h3>How do fungi get their nutrients?</h3>
+
           <p>
-          Algunas bacterias pueden obtener energía mediante
-          quimiosíntesis utilizando sustancias inorgánicas.
+            Fungi are <span class="highlight">heterotrophs</span>.
+            They cannot make their own food through photosynthesis.
           </p>
+
+          <p>
+            Fungi release enzymes into their surroundings.
+            These enzymes break down organic matter into smaller substances.
+          </p>
+
+          <p>
+            The fungi then <span class="highlight">absorb the nutrients</span>
+            through their hyphae, which form a network called mycelium.
+          </p>
+
+          <p>
+            🍂 Organic matter → 🔬 Decomposition → 🍄 Nutrient absorption
+          </p>
+
+          <p>
+            Fungi play an important role in ecosystems because they help
+            recycle nutrients back into the environment.
+          </p>
+
+          <button class="back" onclick="backToMenu()">
+            ← Back to topics
+          </button>
         `;
       }
 
-      if (type === "animales") {
+
+      if (type === "heterotrophs") {
+
         info.innerHTML = `
-          <h3>🐰 Animales</h3>
+          <h2>🐾 Heterotrophs</h2>
+
+          <h3>How do animals get their nutrients?</h3>
+
           <p>
-          Los animales obtienen nutrientes alimentándose de otros
-          seres vivos o de sus productos.
+            Animals are <span class="highlight">heterotrophs</span>.
+            They cannot make their own food, so they obtain nutrients
+            by eating other organisms or organic matter.
           </p>
+
+          <p>
+            Not all animals eat the same things.
+            Their diets can be very different.
+          </p>
+
+          <ul>
+            <li>🌿 <strong>Herbivores:</strong> mainly eat plants.</li>
+            <li>🥩 <strong>Carnivores:</strong> mainly eat other animals.</li>
+            <li>🥗 <strong>Omnivores:</strong> eat both plants and animals.</li>
+            <li>🍂 <strong>Scavengers:</strong> feed on dead animals or organic remains.</li>
+          </ul>
+
+          <p>
+            After eating, animals digest their food and absorb nutrients
+            that provide energy and materials for growth, repair, and body functions.
+          </p>
+
+          <button class="back" onclick="backToMenu()">
+            ← Back to topics
+          </button>
         `;
       }
+
+    }
+
+
+    function backToMenu() {
+      info.style.display = "none";
     }
 
   </script>
